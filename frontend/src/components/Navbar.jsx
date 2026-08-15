@@ -30,7 +30,7 @@ function Navbar() {
         </button>
 
         <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-          {user.role === 'ADMIN' ? (
+          {user.role === 'ADMIN' && (
             <>
               <NavLink 
                 to="/admin" 
@@ -62,10 +62,31 @@ function Navbar() {
                 Profile
               </NavLink>
             </>
-          ) : (
+          )}
+
+          {user.role === 'OWNER' && (
             <>
               <NavLink 
-                to={user.role === 'OWNER' ? '/owner' : '/stores'} 
+                to="/owner" 
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Dashboard
+              </NavLink>
+              <NavLink 
+                to="/profile" 
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Profile
+              </NavLink>
+            </>
+          )}
+
+          {user.role === 'USER' && (
+            <>
+              <NavLink 
+                to="/stores" 
                 className={({ isActive }) => (isActive ? 'active' : '')}
                 onClick={() => setMobileMenuOpen(false)}
               >
