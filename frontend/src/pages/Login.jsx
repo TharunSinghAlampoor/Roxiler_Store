@@ -43,15 +43,6 @@ function Login() {
 
   return (
     <div className="auth-wrapper">
-      <div className="auth-brand-header">
-        <h1 className="login-brand-name">
-          <span className="brand-part-1">Rox</span>
-          <span className="brand-part-2">il</span>
-          <span className="brand-part-3">er</span>
-        </h1>
-        <p className="auth-brand-desc">Submit, discover & manage authentic store ratings</p>
-      </div>
-
       <div className="form-container">
         <div className="form-header">
           <h2>Welcome Back</h2>
@@ -119,7 +110,7 @@ function Login() {
           </button>
         </form>
 
-        <p className="text-center mt-20" style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
+        <p className="text-center mt-20 auth-footer-text">
           Don't have an account?{' '}
           <Link to="/signup" className="link">Create Normal User Account</Link>
         </p>

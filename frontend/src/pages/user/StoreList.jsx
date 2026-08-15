@@ -55,26 +55,38 @@ function UserStoreList() {
     }
   }
 
-  function handleSort(field) {
-    if (sortBy === field) {
-      setOrder(order === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortBy(field);
-      setOrder('asc');
-    }
-  }
-
-  function getSortIndicator(field) {
-    if (sortBy !== field) return null;
-    return <span className="sort-indicator">{order === 'asc' ? ' ▲' : ' ▼'}</span>;
-  }
+  const ratedCount = stores.filter(s => s.userRating).length;
+  const avgOverallRating = stores.length > 0
+    ? (stores.reduce((acc, curr) => acc + curr.overallRating, 0) / stores.length).toFixed(1)
+    : '0.0';
 
   return (
-    <div className="container">
+    <div className="container" style={{ maxWidth: '1240px' }}>
       <div className="page-header">
         <div>
           <h1 className="page-title">Explore Stores</h1>
-          <p className="page-subtitle">Search registered stores, view ratings, and submit your review (1 to 5 stars)</p>
+          <p className="page-subtitle">Discover authentic store listings, browse community ratings, and submit your reviews</p>
+        </div>
+      </div>
+
+      {/* Top Dashboard Stats Summary Cards in Square Boxes */}
+      <div className="dashboard-stats-grid mb-20">
+        <div className="stat-card square-card">
+          <div className="stat-label">Total Registered Stores</div>
+          <div className="stat-value">{stores.length}</div>
+          <div className="stat-subtext">Active store listings</div>
+        </div>
+
+        <div className="stat-card square-card stat-stores">
+          <div className="stat-label">Stores You've Rated</div>
+          <div className="stat-value" style={{ color: '#4D7C5D' }}>{ratedCount}</div>
+          <div className="stat-subtext">{stores.length > 0 ? `${Math.round((ratedCount / stores.length) * 100)}% of stores rated by you` : '0%'}</div>
+        </div>
+
+        <div className="stat-card square-card stat-ratings">
+          <div className="stat-label">Average Store Score</div>
+          <div className="stat-value" style={{ color: '#D97706' }}>★ {avgOverallRating}</div>
+          <div className="stat-subtext">Platform-wide average rating</div>
         </div>
       </div>
 
@@ -84,8 +96,9 @@ function UserStoreList() {
         </div>
       )}
 
+      {/* Search & Sort Filters */}
       <div className="filters-card">
-        <div className="filters-grid">
+        <div className="filters-grid" style={{ gridTemplateColumns: '2fr 2fr 1fr' }}>
           <input
             placeholder="Search stores by name..."
             value={searchName}
@@ -96,55 +109,47 @@ function UserStoreList() {
             value={searchAddress}
             onChange={(e) => setSearchAddress(e.target.value)}
           />
+          <select
+            value={`${sortBy}-${order}`}
+            onChange={(e) => {
+              const [f, o] = e.target.value.split('-');
+              setSortBy(f);
+              setOrder(o);
+            }}
+          >
+            <option value="name-asc">Sort: Name (A-Z)</option>
+            <option value="name-desc">Sort: Name (Z-A)</option>
+            <option value="rating-desc">Sort: Highest Rated</option>
+            <option value="rating-asc">Sort: Lowest Rated</option>
+          </select>
         </div>
       </div>
 
-      <div className="table-container">
-        <div className="table-responsive">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th className="sortable" onClick={() => handleSort('name')}>
-                  Store Name{getSortIndicator('name')}
-                </th>
-                <th className="sortable" onClick={() => handleSort('address')}>
-                  Address{getSortIndicator('address')}
-                </th>
-                <th className="sortable" onClick={() => handleSort('rating')}>
-                  Overall Rating{getSortIndicator('rating')}
-                </th>
-                <th>Your Submitted Rating</th>
-                <th style={{ minWidth: '220px' }}>Rate / Modify</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
-                <tr>
-                  <td colSpan="5" className="empty-state">Loading store listings...</td>
-                </tr>
-              ) : stores.length === 0 ? (
-                <tr>
-                  <td colSpan="5" className="empty-state">No stores found matching your search</td>
-                </tr>
-              ) : (
-                stores.map(store => (
-                  <StoreRow
-                    key={store.id}
-                    store={store}
-                    onSubmit={handleRatingSubmit}
-                    onModify={handleRatingModify}
-                  />
-                ))
-              )}
-            </tbody>
-          </table>
+      {/* Visual Store Cards Grid */}
+      {loading ? (
+        <div className="loading-state">Loading store listings...</div>
+      ) : stores.length === 0 ? (
+        <div className="card text-center" style={{ padding: '50px 20px' }}>
+          <h3>No stores found matching your search</h3>
+          <p style={{ color: 'var(--text-muted)', marginTop: '8px' }}>Try adjusting your search terms or clearing filters.</p>
         </div>
-      </div>
+      ) : (
+        <div className="store-cards-grid">
+          {stores.map(store => (
+            <VisualStoreCard
+              key={store.id}
+              store={store}
+              onSubmit={handleRatingSubmit}
+              onModify={handleRatingModify}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function StoreRow({ store, onSubmit, onModify }) {
+function VisualStoreCard({ store, onSubmit, onModify }) {
   const [selectedRating, setSelectedRating] = useState(store.userRating || 0);
   const [submitting, setSubmitting] = useState(false);
 
@@ -170,27 +175,36 @@ function StoreRow({ store, onSubmit, onModify }) {
   const hasRated = !!store.userRating;
 
   return (
-    <tr>
-      <td style={{ fontWeight: '600' }}>{store.name}</td>
-      <td>{store.address}</td>
-      <td>
-        <span className="rating-badge">
-          <span className="rating-badge-star">★</span>
-          {store.overallRating.toFixed(1)} / 5
-        </span>
-      </td>
-      <td>
-        {hasRated ? (
-          <span className="rating-badge" style={{ backgroundColor: '#ecfdf5', color: '#065f46', borderColor: '#a7f3d0' }}>
-            <span style={{ color: '#059669' }}>★</span>
-            {store.userRating} / 5
+    <div className="visual-store-card">
+      <div>
+        <div className="visual-card-header">
+          <div className="visual-card-title">{store.name}</div>
+          <span className="rating-badge" style={{ flexShrink: 0 }}>
+            <span className="rating-badge-star">★</span>
+            {store.overallRating.toFixed(1)}
           </span>
-        ) : (
-          <span style={{ color: 'var(--text-subtle)', fontSize: '12px' }}>Not rated yet</span>
-        )}
-      </td>
-      <td>
-        <div className="rate-action-group">
+        </div>
+
+        <div className="visual-card-address">
+          <span className="visual-card-address-icon">📍</span>
+          <span>{store.address}</span>
+        </div>
+      </div>
+
+      {/* Rating & Review Section inside Card */}
+      <div className="user-rating-section">
+        <div className="user-rating-header">
+          <span className="user-rating-status">
+            {hasRated ? 'Your Rating:' : 'Rate this store:'}
+          </span>
+          {hasRated && (
+            <span style={{ color: '#D97706', fontWeight: '800' }}>
+              ★ {store.userRating} / 5
+            </span>
+          )}
+        </div>
+
+        <div className="user-rating-actions">
           <StarRating
             value={selectedRating}
             onChange={(val) => setSelectedRating(val)}
@@ -200,11 +214,11 @@ function StoreRow({ store, onSubmit, onModify }) {
             onClick={handleActionClick}
             disabled={submitting || selectedRating === 0}
           >
-            {submitting ? 'Saving...' : hasRated ? 'Modify' : 'Submit'}
+            {submitting ? 'Saving...' : hasRated ? 'Update' : 'Submit'}
           </button>
         </div>
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 }
 

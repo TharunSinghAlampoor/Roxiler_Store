@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { signup, login, changePassword } = require('../controllers/authController');
+const { signup, login, getMe, changePassword } = require('../controllers/authController');
 const { authenticate } = require('../middleware/auth');
 const { nameRules, emailRules, passwordRules, addressRules } = require('../middleware/validate');
 const { body } = require('express-validator');
@@ -21,6 +21,9 @@ router.post(
   ],
   login
 );
+
+// GET /api/auth/me
+router.get('/me', authenticate, getMe);
 
 // PUT /api/auth/password
 router.put(

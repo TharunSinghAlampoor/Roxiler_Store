@@ -72,11 +72,26 @@ async function login(req, res) {
         id: user.id,
         name: user.name,
         email: user.email,
+        address: user.address,
         role: user.role
       }
     });
   } catch (err) {
     console.error('Login error:', err);
+    res.status(500).json({ message: 'Something went wrong, try again later' });
+  }
+}
+
+// GET /api/auth/me - fetch current logged in user details including address
+async function getMe(req, res) {
+  try {
+    const [rows] = await pool.query('SELECT id, name, email, address, role FROM users WHERE id = ?', [req.user.id]);
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(rows[0]);
+  } catch (err) {
+    console.error('getMe error:', err);
     res.status(500).json({ message: 'Something went wrong, try again later' });
   }
 }
@@ -114,4 +129,4 @@ async function changePassword(req, res) {
   }
 }
 
-module.exports = { signup, login, changePassword };
+module.exports = { signup, login, getMe, changePassword };

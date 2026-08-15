@@ -14,20 +14,11 @@ function Navbar() {
 
   if (!user) return null;
 
-  const roleClass = 
-    user.role === 'ADMIN' ? 'badge-admin' :
-    user.role === 'OWNER' ? 'badge-owner' : 'badge-user';
-
-  const roleLabel = 
-    user.role === 'ADMIN' ? 'Admin' :
-    user.role === 'OWNER' ? 'Store Owner' : 'Normal User';
-
   return (
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/" className="brand" onClick={() => setMobileMenuOpen(false)}>
           Roxiler
-          <span className="brand-badge">Rating Platform</span>
         </Link>
 
         <button 
@@ -35,11 +26,11 @@ function Navbar() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle navigation menu"
         >
-          {mobileMenuOpen ? 'Close Menu' : 'Menu'}
+          {mobileMenuOpen ? 'Close' : 'Menu'}
         </button>
 
         <div className={`nav-links ${mobileMenuOpen ? 'mobile-open' : ''}`}>
-          {user.role === 'ADMIN' && (
+          {user.role === 'ADMIN' ? (
             <>
               <NavLink 
                 to="/admin" 
@@ -63,13 +54,18 @@ function Navbar() {
               >
                 Stores
               </NavLink>
+              <NavLink 
+                to="/profile" 
+                className={({ isActive }) => (isActive ? 'active' : '')}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Profile
+              </NavLink>
             </>
-          )}
-
-          {user.role === 'USER' && (
+          ) : (
             <>
               <NavLink 
-                to="/stores" 
+                to={user.role === 'OWNER' ? '/owner' : '/stores'} 
                 className={({ isActive }) => (isActive ? 'active' : '')}
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -80,34 +76,10 @@ function Navbar() {
                 className={({ isActive }) => (isActive ? 'active' : '')}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Change Password
+                Profile
               </NavLink>
             </>
           )}
-
-          {user.role === 'OWNER' && (
-            <>
-              <NavLink 
-                to="/owner" 
-                className={({ isActive }) => (isActive ? 'active' : '')}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Dashboard
-              </NavLink>
-              <NavLink 
-                to="/profile" 
-                className={({ isActive }) => (isActive ? 'active' : '')}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Change Password
-              </NavLink>
-            </>
-          )}
-
-          <div className="user-info-pill">
-            <span className="user-name">{user.name}</span>
-            <span className={`badge ${roleClass}`}>{roleLabel}</span>
-          </div>
 
           <button className="logout-btn" onClick={handleLogout}>
             Logout

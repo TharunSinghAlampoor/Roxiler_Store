@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import ChangePassword from './pages/ChangePassword';
+import Profile from './pages/Profile';
 import AdminDashboard from './pages/admin/Dashboard';
 import UserList from './pages/admin/UserList';
 import UserDetail from './pages/admin/UserDetail';
@@ -17,7 +17,6 @@ import OwnerDashboard from './pages/owner/Dashboard';
 function App() {
   const { user } = useAuth();
 
-  // figure out where to send the user when they hit "/"
   function getHomePath() {
     if (!user) return '/login';
     if (user.role === 'ADMIN') return '/admin';
@@ -33,10 +32,10 @@ function App() {
         <Route path="/login" element={user ? <Navigate to={getHomePath()} /> : <Login />} />
         <Route path="/signup" element={user ? <Navigate to={getHomePath()} /> : <Signup />} />
 
-        {/* shared: change password */}
+        {/* shared: profile & change password */}
         <Route path="/profile" element={
-          <ProtectedRoute allowedRoles={['USER', 'OWNER']}>
-            <ChangePassword />
+          <ProtectedRoute allowedRoles={['USER', 'OWNER', 'ADMIN']}>
+            <Profile />
           </ProtectedRoute>
         } />
 
