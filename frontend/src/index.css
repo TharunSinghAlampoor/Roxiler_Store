@@ -1581,3 +1581,224 @@ body {
   gap: 10px;
   flex-wrap: wrap;
 }
+
+/* ==========================================================================
+   Users UI Custom Enhancements
+   ========================================================================== */
+
+.users-stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-pill {
+  flex: 1 1 180px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-pill-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.stat-pill-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.stat-pill-admin .stat-pill-val {
+  color: #B94726;
+}
+
+.stat-pill-owner .stat-pill-val {
+  color: #2E6B43;
+}
+
+.stat-pill-user .stat-pill-val {
+  color: #4A5059;
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.filters-title {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+
+.btn-clear-filters {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+
+.btn-clear-filters:hover {
+  background-color: var(--primary-subtle);
+}
+
+.user-info-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.user-avatar-admin {
+  background-color: #FFF3EB;
+  color: #B94726;
+  border: 1.5px solid #FDBA8C;
+}
+
+.user-avatar-owner {
+  background-color: #EDF7EE;
+  color: #2E6B43;
+  border: 1.5px solid #CBE6D2;
+}
+
+.user-avatar-user {
+  background-color: #F4F0E8;
+  color: #4A5059;
+  border: 1.5px solid #D6D0C4;
+}
+
+.user-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.user-display-name {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text-main);
+}
+
+.user-id-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-subtle);
+  margin-top: 1px;
+}
+
+.user-email-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.user-address-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.user-role-text {
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.user-role-admin {
+  color: #B94726;
+}
+
+.user-role-owner {
+  color: #2E6B43;
+}
+
+.user-role-user {
+  color: #57616A;
+}
+
+.data-table th.active-sort {
+  background-color: #F7F4EC !important;
+  color: var(--primary) !important;
+  border-bottom: 2px solid var(--primary) !important;
+}
+
+.user-table-row {
+  transition: background-color 0.15s ease;
+}
+
+.user-table-row:hover {
+  background-color: #FDFBF7 !important;
+}
+
+.action-btn {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 7px 14px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.user-id-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background-color: var(--bg-surface-subtle);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  letter-spacing: 0.02em;
+  min-width: 34px;
+}
+

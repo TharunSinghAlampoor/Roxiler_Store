@@ -69,7 +69,7 @@ function AddUser() {
         address: formData.address.trim(),
         role: formData.role
       });
-      setSuccess('User created successfully! Redirecting to users list...');
+      setSuccess('User created successfully! Redirecting to Users...');
       setTimeout(() => navigate('/admin/users'), 1500);
     } catch (err) {
       if (err.response?.data?.errors) {

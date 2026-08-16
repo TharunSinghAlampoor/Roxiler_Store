@@ -31,7 +31,7 @@ async function getStores(req, res) {
     query += ' GROUP BY s.id';
 
     // sorting
-    const allowedSortFields = ['name', 'email', 'address'];
+    const allowedSortFields = ['id', 'name', 'email', 'address'];
     if (sortBy && allowedSortFields.includes(sortBy)) {
       const sortOrder = order === 'desc' ? 'DESC' : 'ASC';
       query += ` ORDER BY s.${sortBy} ${sortOrder}`;
@@ -63,7 +63,7 @@ async function getStoresAdmin(req, res) {
     const { name, email, address, sortBy, order } = req.query;
 
     let query = `
-      SELECT s.id, s.name, s.email, s.address,
+      SELECT s.id, s.name, s.email, s.address, s.owner_id,
         COALESCE(AVG(r.rating), 0) as rating
       FROM stores s
       LEFT JOIN ratings r ON r.store_id = s.id
@@ -86,7 +86,7 @@ async function getStoresAdmin(req, res) {
 
     query += ' GROUP BY s.id';
 
-    const allowedSortFields = ['name', 'email', 'address'];
+    const allowedSortFields = ['id', 'name', 'email', 'address'];
     if (sortBy && allowedSortFields.includes(sortBy)) {
       const sortOrder = order === 'desc' ? 'DESC' : 'ASC';
       query += ` ORDER BY s.${sortBy} ${sortOrder}`;

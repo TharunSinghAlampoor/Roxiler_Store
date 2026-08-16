@@ -73,7 +73,7 @@ function AdminDashboard() {
         </h2>
         <div className="btn-group">
           <Link to="/admin/users" className="btn btn-secondary">
-            View & Manage Users List
+            View & Manage Users
           </Link>
           <Link to="/admin/stores" className="btn btn-secondary">
             View & Manage Stores List

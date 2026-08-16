@@ -16,7 +16,7 @@ async function seed() {
 
     await pool.query(
       'INSERT INTO users (name, email, password_hash, address, role) VALUES (?, ?, ?, ?, ?)',
-      ['System Administrator User', 'admin@roxiler.com', hashedPassword, 'Roxiler HQ, Main Street', 'ADMIN']
+      ['System Administrator User', 'admin@roxiler.com', hashedPassword, 'Roxiler Corporate Towers, Suite 500, Tech Park Road, Bengaluru, Karnataka 560100', 'ADMIN']
     );
 
     console.log('Admin user seeded successfully!');

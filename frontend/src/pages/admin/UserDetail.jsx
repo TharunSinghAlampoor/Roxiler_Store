@@ -22,10 +22,10 @@ function UserDetail() {
     setLoading(false);
   }
 
-  function renderRoleBadge(role) {
-    if (role === 'ADMIN') return <span className="badge badge-admin">Admin</span>;
-    if (role === 'OWNER') return <span className="badge badge-owner">Store Owner</span>;
-    return <span className="badge badge-user">Normal User</span>;
+  function renderRole(role) {
+    if (role === 'ADMIN') return <span className="user-role-text user-role-admin">Admin</span>;
+    if (role === 'OWNER') return <span className="user-role-text user-role-owner">Store Owner</span>;
+    return <span className="user-role-text user-role-user">User</span>;
   }
 
   if (loading) {
@@ -40,7 +40,7 @@ function UserDetail() {
     return (
       <div className="container">
         <div className="error-msg">{error || 'User not found'}</div>
-        <Link to="/admin/users" className="btn btn-outline">Back to Users List</Link>
+        <Link to="/admin/users" className="btn btn-outline">Back to Users</Link>
       </div>
     );
   }
@@ -52,7 +52,7 @@ function UserDetail() {
           <h1 className="page-title">User Details</h1>
           <p className="page-subtitle">Detailed profile information for account ID #{user.id}</p>
         </div>
-        <Link to="/admin/users" className="btn btn-outline">Back to Users List</Link>
+        <Link to="/admin/users" className="btn btn-outline">Back to Users</Link>
       </div>
 
       <div className="detail-card">
@@ -70,7 +70,7 @@ function UserDetail() {
         </div>
         <div className="detail-row">
           <div className="detail-label">Assigned Role</div>
-          <div className="detail-value">{renderRoleBadge(user.role)}</div>
+          <div className="detail-value">{renderRole(user.role)}</div>
         </div>
         <div className="detail-row">
           <div className="detail-label">Registered Date</div>

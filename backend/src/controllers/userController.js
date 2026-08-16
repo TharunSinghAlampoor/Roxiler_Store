@@ -29,7 +29,7 @@ async function getUsers(req, res) {
     }
 
     // sorting
-    const allowedSortFields = ['name', 'email', 'address', 'role', 'created_at'];
+    const allowedSortFields = ['id', 'name', 'email', 'address', 'role', 'created_at'];
     if (sortBy && allowedSortFields.includes(sortBy)) {
       const sortOrder = order === 'desc' ? 'DESC' : 'ASC';
       query += ` ORDER BY ${sortBy} ${sortOrder}`;

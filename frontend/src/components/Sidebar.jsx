@@ -66,9 +66,9 @@ function Sidebar({ collapsed, onToggle }) {
                 to="/admin/users" 
                 className={({ isActive }) => `sidebar-nav-item ${isActive ? 'active' : ''}`}
                 onClick={() => setMobileOpen(false)}
-                title={collapsed ? 'Users Management' : undefined}
+                title={collapsed ? 'Users' : undefined}
               >
-                <span className="nav-text">{collapsed ? 'UM' : 'Users Management'}</span>
+                <span className="nav-text">{collapsed ? 'U' : 'Users'}</span>
               </NavLink>
               <NavLink 
                 to="/admin/stores" 
